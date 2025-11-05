@@ -12,7 +12,7 @@
 Summary: Qt6 - Support for rendering and displaying SVG
 Name:    qt6-%{qt_module}
 Version: 6.8.1
-Release: 1%{?dist}
+Release: 1%{?dist}.1
 
 License: LGPL-3.0-only OR GPL-3.0-only WITH Qt-GPL-exception-1.0
 Url:     http://www.qt.io
@@ -24,6 +24,9 @@ Source0: https://download.qt.io/development_releases/qt/%{majmin}/%{qt_version}/
 %else
 Source0: https://download.qt.io/official_releases/qt/%{majmin}/%{version}/submodules/%{qt_module}-everywhere-src-%{version}.tar.xz
 %endif
+
+# CVE-2025-10729
+Patch0: RHEL-119697.patch
 
 # filter plugin provides
 %global __provides_exclude_from ^%{_qt6_plugindir}/.*\\.so$
@@ -140,6 +143,10 @@ popd
 %endif
 
 %changelog
+* Fri Oct 24 2025 RHEL Packaging Agent <jotnar@redhat.com> - 6.8.1-1.1
+- Fix CVE-2025-10729: Prevent dangling pointers from misplaced elements
+  Resolves: RHEL-119697
+
 * Thu Dec 05 2024 Jan Grulich <jgrulich@redhat.com> - 6.8.1-1
 - 6.8.1
   Resolves: RHEL-53982
