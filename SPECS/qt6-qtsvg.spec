@@ -11,8 +11,8 @@
 
 Summary: Qt6 - Support for rendering and displaying SVG
 Name:    qt6-%{qt_module}
-Version: 6.8.1
-Release: 1%{?dist}.1
+Version: 6.9.1
+Release: 2%{?dist}
 
 License: LGPL-3.0-only OR GPL-3.0-only WITH Qt-GPL-exception-1.0
 Url:     http://www.qt.io
@@ -25,8 +25,8 @@ Source0: https://download.qt.io/development_releases/qt/%{majmin}/%{qt_version}/
 Source0: https://download.qt.io/official_releases/qt/%{majmin}/%{version}/submodules/%{qt_module}-everywhere-src-%{version}.tar.xz
 %endif
 
-# CVE-2025-10729
-Patch0: RHEL-119697.patch
+# Upstream patches
+Patch50: qtsvg-dont-add-outlines-to-text-when-there-is-none.patch
 
 # filter plugin provides
 %global __provides_exclude_from ^%{_qt6_plugindir}/.*\\.so$
@@ -125,9 +125,13 @@ popd
 %{_qt6_libdir}/cmake/Qt6BuildInternals/StandaloneTests/QtSvgTestsConfig.cmake
 %{_qt6_libdir}/cmake/Qt6Gui/*.cmake
 %dir %{_qt6_libdir}/cmake/Qt6Svg/
-%{_qt6_libdir}/cmake/Qt6Svg/*.cmake
+%dir %{_qt6_libdir}/cmake/Qt6SvgPrivate/
 %dir %{_qt6_libdir}/cmake/Qt6SvgWidgets/
+%dir %{_qt6_libdir}/cmake/Qt6SvgWidgetsPrivate/
+%{_qt6_libdir}/cmake/Qt6Svg/*.cmake
+%{_qt6_libdir}/cmake/Qt6SvgPrivate/*cmake
 %{_qt6_libdir}/cmake/Qt6SvgWidgets/*.cmake
+%{_qt6_libdir}/cmake/Qt6SvgWidgetsPrivate/*.cmake
 %{_qt6_libdir}/qt6/metatypes/qt6*_metatypes.json
 %{_qt6_libdir}/qt6/modules/*.json
 %{_qt6_libdir}/pkgconfig/*.pc
@@ -143,9 +147,13 @@ popd
 %endif
 
 %changelog
-* Fri Oct 24 2025 RHEL Packaging Agent <jotnar@redhat.com> - 6.8.1-1.1
-- Fix CVE-2025-10729: Prevent dangling pointers from misplaced elements
-  Resolves: RHEL-119697
+* Mon Jun 23 2025 Jan Grulich <jgrulich@redhat.com> - 6.9.1-2
+- Upstream backport: Don't add outlines to text when there is none
+  Resolves: RHEL-78552
+
+* Wed May 14 2025 Jan Grulich <jgrulich@redhat.com> - 6.9.1-1
+- 6.9.1
+  Resolves: RHEL-78552
 
 * Thu Dec 05 2024 Jan Grulich <jgrulich@redhat.com> - 6.8.1-1
 - 6.8.1
