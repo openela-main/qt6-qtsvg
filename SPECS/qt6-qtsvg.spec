@@ -12,7 +12,7 @@
 Summary: Qt6 - Support for rendering and displaying SVG
 Name:    qt6-%{qt_module}
 Version: 6.9.1
-Release: 2%{?dist}
+Release: 2%{?dist}.1
 
 License: LGPL-3.0-only OR GPL-3.0-only WITH Qt-GPL-exception-1.0
 Url:     http://www.qt.io
@@ -27,6 +27,7 @@ Source0: https://download.qt.io/official_releases/qt/%{majmin}/%{version}/submod
 
 # Upstream patches
 Patch50: qtsvg-dont-add-outlines-to-text-when-there-is-none.patch
+Patch51: RHEL-119699.patch
 
 # filter plugin provides
 %global __provides_exclude_from ^%{_qt6_plugindir}/.*\\.so$
@@ -147,6 +148,10 @@ popd
 %endif
 
 %changelog
+* Wed Oct 29 2025 RHEL Packaging Agent <jotnar@redhat.com> - 6.9.1-2.1
+- Fix CVE-2025-10729: Prevent dangling pointers in SVG group node creation
+  Resolves: RHEL-119699
+
 * Mon Jun 23 2025 Jan Grulich <jgrulich@redhat.com> - 6.9.1-2
 - Upstream backport: Don't add outlines to text when there is none
   Resolves: RHEL-78552
